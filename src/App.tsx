@@ -1,48 +1,68 @@
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { useState } from "react";
 import Dashboard from "./components/Dashboard";
 import LearningLog from "./components/LearningLog";
 import ProjectTracker from "./components/ProjectTracker";
 import Insights from "./components/Insights";
 
 function App() {
+  const [logs, setLogs] = useState<any[]>([
+    { text: "Learned React hooks!", tags: ["React"] },
+    { text: "Explored TypeScript generics.", tags: ["TypeScript"] },
+  ]);
+
+  const [projects, setProjects] = useState<any[]>([
+    { id: 1, name: "Portfolio Website", status: "In Progress" },
+    { id: 2, name: "E-Commerce Store", status: "Completed" },
+  ]);
+
   return (
     <Router>
-      <header className="justify-center flex flex-col items-center">
-        <h1 className="text-4xl font-bold p-8">Smart Learning Tracker</h1>
-        <nav>
-          <Link
-            className="px-4 py-2 mx-2 rounded-md border-2 border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white transition-colors duration-200"
-            to="/"
-          >
-            Dashboard
-          </Link>
-          <Link
-            className="px-4 py-2 mx-2 rounded-md border-2 border-green-500 text-green-600 hover:bg-green-500 hover:text-white transition-colors duration-200"
-            to="/learning-log"
-          >
-            Learning Log
-          </Link>
-          <Link
-            className="px-4 py-2 mx-2 rounded-md border-2 border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors duration-200"
-            to="/project-tracker"
-          >
-            Project Tracker
-          </Link>
-          <Link
-            className="px-4 py-2 mx-2 rounded-md border-2 border-purple-500 text-purple-600 hover:bg-purple-500 hover:text-white transition-colors duration-200"
-            to="/insights"
-          >
-            Insights
-          </Link>
-        </nav>
-      </header>
+      <div className="flex min-h-screen">
+        {/* Sidebar Navigation */}
+        <aside className="w-64 bg-gray-800 text-white p-6">
+          <h1 className="text-2xl font-bold">Smart Learning Tracker</h1>
+          <nav className="mt-6 space-y-4">
+            <Link
+              className="block py-2 px-4 rounded bg-blue-500 hover:bg-blue-600"
+              to="/"
+            >
+              Dashboard
+            </Link>
+            <Link
+              className="block py-2 px-4 rounded bg-green-500 hover:bg-green-600"
+              to="/learning-log"
+            >
+              Learning Log
+            </Link>
+            <Link
+              className="block py-2 px-4 rounded bg-orange-500 hover:bg-orange-600"
+              to="/project-tracker"
+            >
+              Project Tracker
+            </Link>
+            <Link
+              className="block py-2 px-4 rounded bg-purple-500 hover:bg-purple-600"
+              to="/insights"
+            >
+              Insights
+            </Link>
+          </nav>
+        </aside>
 
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/learning-log" element={<LearningLog />} />
-        <Route path="/project-tracker" element={<ProjectTracker />} />
-        <Route path="/insights" element={<Insights />} />
-      </Routes>
+        {/* Main Content */}
+        <main className="flex-1 p-8">
+          <Routes>
+            <Route
+              path="/"
+              element={<Dashboard logs={logs} projects={projects} />}
+            />
+            <Route path="/learning-log" element={<LearningLog />} />
+            <Route path="/project-tracker" element={<ProjectTracker />} />
+            <Route path="/insights" element={<Insights />} />
+          </Routes>
+        </main>
+      </div>
     </Router>
   );
 }
