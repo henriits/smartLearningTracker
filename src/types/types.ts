@@ -11,4 +11,5 @@ export type ProjectStatus = "In Progress" | "Completed" | "On Hold";
 export interface LearningLogType {
   text: string;
   tags: string[];
+  createdAt: Date;
 }

@@ -70,7 +70,11 @@ const Dashboard = ({
 
     const updatedLogs = [
       ...logs,
-      { text: newEntry.text, tags: [newEntry.topic || "General"] },
+      {
+        text: newEntry.text,
+        tags: [newEntry.topic || "General"],
+        createdAt: new Date(),
+      },
     ];
     setLogs(updatedLogs);
     setNewEntry({ text: "", topic: "" });
@@ -149,10 +153,14 @@ const Dashboard = ({
         {/* Recent Learning Logs */}
         <div className="col-span-2 bg-white shadow-md rounded-lg p-4">
           <h3 className="text-xl font-semibold">Recent Learning Logs</h3>
-          {logs.slice(0, 3).map((log, index) => (
-            <p key={index} className="text-gray-600">
-              {log.text}
-            </p>
+          {logs.slice(-5).map((log, index) => (
+            <div key={index} className="border-b pb-2 mb-2">
+              <p className="text-gray-600">{log.text}</p>
+              <p className="text-sm text-gray-500">
+                {new Date(log.createdAt).toLocaleDateString()}{" "}
+                {new Date(log.createdAt).toLocaleTimeString()}
+              </p>
+            </div>
           ))}
         </div>
 
