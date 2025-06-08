@@ -154,12 +154,22 @@ const Dashboard = ({
         <div className="col-span-2 bg-white shadow-md rounded-lg p-4">
           <h3 className="text-xl font-semibold">Recent Learning Logs</h3>
           {logs.slice(-5).map((log, index) => (
-            <div key={index} className="border-b pb-2 mb-2">
-              <p className="text-gray-600">{log.text}</p>
-              <p className="text-sm text-gray-500">
-                {new Date(log.createdAt).toLocaleDateString()}{" "}
-                {new Date(log.createdAt).toLocaleTimeString()}
+            <div
+              key={index}
+              className="flex justify-between items-center border-b pb-2 mb-2"
+            >
+              {/* Left: Date */}
+              <p className="text-gray-500 text-sm w-1/4">
+                {new Date(log.createdAt).toLocaleDateString()}
               </p>
+
+              {/* Right: Log Text & Topics */}
+              <div className="w-3/4">
+                <p className="text-gray-600">{log.text}</p>
+                <p className="text-sm text-blue-500 mt-1">
+                  Topic: {log.tags.join(", ")}
+                </p>
+              </div>
             </div>
           ))}
         </div>
