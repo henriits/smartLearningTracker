@@ -1,12 +1,5 @@
 import { useState } from "react";
-
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  status: "In Progress" | "Completed" | "On Hold";
-  tags: string[];
-}
+import type { Project, ProjectStatus } from "../types/types";
 
 const ProjectTracker = ({
   projects,
@@ -20,7 +13,7 @@ const ProjectTracker = ({
   const addProject = () => {
     if (!newProject.name.trim()) return;
 
-    setProjects((prevProjects: Project[]) => [
+    setProjects((prevProjects) => [
       ...prevProjects,
       {
         id: prevProjects.length + 1,
@@ -34,11 +27,8 @@ const ProjectTracker = ({
     setNewProject({ name: "", description: "" });
   };
 
-  const updateProjectStatus = (
-    id: number,
-    newStatus: "In Progress" | "Completed" | "On Hold"
-  ) => {
-    setProjects((prevProjects: Project[]) =>
+  const updateProjectStatus = (id: number, newStatus: ProjectStatus) => {
+    setProjects((prevProjects) =>
       prevProjects.map((project) =>
         project.id === id ? { ...project, status: newStatus } : project
       )
@@ -87,11 +77,8 @@ const ProjectTracker = ({
             <p className="text-gray-600">{project.description}</p>
             <select
               value={project.status}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                updateProjectStatus(
-                  project.id,
-                  e.target.value as "In Progress" | "Completed" | "On Hold"
-                )
+              onChange={(e) =>
+                updateProjectStatus(project.id, e.target.value as ProjectStatus)
               }
               className="mt-2 p-2 border rounded-md"
             >
