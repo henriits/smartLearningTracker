@@ -8,7 +8,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { useState } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -19,22 +18,28 @@ ChartJS.register(
   Legend
 );
 
-interface InsightData {
-  tag: string;
-  entries: number;
+interface LearningLog {
+  text: string;
+  tags: string[];
 }
 
-const Insights = ({ logs }: { logs: InsightData[] }) => {
-  const [insights] = useState<InsightData[]>(logs); // Use real logs data
+const Insights = ({ logs }: { logs: LearningLog[] }) => {
+  // Aggregate data based on tag frequency
+  const tagCount: { [key: string]: number } = {};
+  logs.forEach((log) => {
+    log.tags.forEach((tag) => {
+      tagCount[tag] = (tagCount[tag] || 0) + 1;
+    });
+  });
 
-  const data = {
-    labels: insights.map((insight) => insight.tag),
+  const chartData = {
+    labels: Object.keys(tagCount),
     datasets: [
       {
-        label: "Learning Entries",
-        data: insights.map((insight) => insight.entries),
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        label: "Learning Entries by Tag",
+        data: Object.values(tagCount),
+        backgroundColor: ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"],
+        borderColor: "#ddd",
         borderWidth: 1,
       },
     ],
@@ -46,7 +51,7 @@ const Insights = ({ logs }: { logs: InsightData[] }) => {
 
       {/* Bar Chart */}
       <div className="mt-4">
-        <Bar data={data} options={{ responsive: true }} />
+        <Bar data={chartData} options={{ responsive: true }} />
       </div>
     </div>
   );

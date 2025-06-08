@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 const Dashboard = ({
   logs,
@@ -9,6 +11,24 @@ const Dashboard = ({
   setLogs: (logs: any[]) => void;
   projects: any[];
 }) => {
+  // Aggregate tag data
+  const tagCount: { [key: string]: number } = {};
+  logs.forEach((log) => {
+    log.tags.forEach((tag) => {
+      tagCount[tag] = (tagCount[tag] || 0) + 1;
+    });
+  });
+
+  const chartData = {
+    labels: Object.keys(tagCount),
+    datasets: [
+      {
+        data: Object.values(tagCount),
+        backgroundColor: ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"],
+      },
+    ],
+  };
+
   const [newEntry, setNewEntry] = useState("");
   const totalEntries = logs.length;
 
@@ -54,7 +74,7 @@ const Dashboard = ({
         </div>
 
         {/* Recent Learning Logs */}
-        <div className="bg-white shadow-md rounded-lg p-4">
+        <div className="col-span-2 bg-white shadow-md rounded-lg p-4">
           <h3 className="text-xl font-semibold">Recent Learning Logs</h3>
           {logs.slice(0, 3).map((log, index) => (
             <p key={index} className="text-gray-600">
@@ -73,10 +93,10 @@ const Dashboard = ({
           ))}
         </div>
 
-        {/* Learning Insights */}
-        <div className="col-span-2 bg-purple-100 shadow-md rounded-lg p-4">
-          <h3 className="text-xl font-semibold">Insights</h3>
-          {/* Add data visualization */}
+        {/* Insights Donut Chart */}
+        <div className=" bg-purple-100 shadow-md rounded-lg p-4">
+          <h3 className="text-xl font-semibold">Learning Insights</h3>
+          <Doughnut data={chartData} options={{ responsive: true }} />
         </div>
 
         {/* Achievements */}
