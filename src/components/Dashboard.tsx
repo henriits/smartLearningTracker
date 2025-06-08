@@ -1,8 +1,40 @@
-const Dashboard = ({ logs, projects }: { logs: any[]; projects: any[] }) => {
+import { useState } from "react";
+
+const Dashboard = ({
+  logs,
+  setLogs,
+  projects,
+}: {
+  logs: any[];
+  setLogs: (logs: any[]) => void;
+  projects: any[];
+}) => {
+  const [newEntry, setNewEntry] = useState("");
+  const totalEntries = logs.length;
+
+  const handleAddEntry = () => {
+    if (!newEntry.trim()) return;
+    const updatedLogs = [...logs, { text: newEntry, tags: ["General"] }];
+    setLogs(updatedLogs);
+    setNewEntry("");
+  };
   return (
     <div className="grid grid-cols-10 gap-4 p-6">
       {/* Main Content */}
       <main className="col-span-10 grid grid-cols-2 gap-4">
+        {/* Learning Recap Section */}
+        <div className="col-span-2 bg-white shadow-md rounded-lg p-4">
+          <h3 className="text-xl font-semibold">Learning Recap</h3>
+          <p className="text-gray-600">
+            You've logged{" "}
+            <span className="text-blue-500 font-bold">{totalEntries}</span>{" "}
+            learning entries!
+          </p>
+          <p className="text-gray-600 mt-2">
+            Topics Covered: {logs.map((log) => log.tags.join(", ")).join(", ")}
+          </p>
+        </div>
+
         {/* Recent Learning Logs */}
         <div className="bg-white shadow-md rounded-lg p-4">
           <h3 className="text-xl font-semibold">Recent Learning Logs</h3>
@@ -11,6 +43,23 @@ const Dashboard = ({ logs, projects }: { logs: any[]; projects: any[] }) => {
               {log.text}
             </p>
           ))}
+        </div>
+        {/* Add New Entry Form */}
+        <div className="col-span-2 bg-gray-100 shadow-md rounded-lg p-4">
+          <h3 className="text-xl font-semibold">Add a New Learning Entry</h3>
+          <input
+            type="text"
+            value={newEntry}
+            onChange={(e) => setNewEntry(e.target.value)}
+            placeholder="What did you learn today?"
+            className="w-full mt-2 p-2 border rounded-md"
+          />
+          <button
+            onClick={handleAddEntry}
+            className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
+            Save Entry
+          </button>
         </div>
 
         {/* Project Summary */}

@@ -55,8 +55,11 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<Dashboard logs={logs} projects={projects} />}
+              element={
+                <Dashboard logs={logs} setLogs={setLogs} projects={projects} />
+              }
             />
+
             <Route path="/learning-log" element={<LearningLog />} />
             <Route path="/project-tracker" element={<ProjectTracker />} />
             <Route path="/insights" element={<Insights logs={logs} />} />
