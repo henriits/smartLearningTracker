@@ -22,6 +22,24 @@ const Dashboard = ({
     <div className="grid grid-cols-10 gap-4 p-6">
       {/* Main Content */}
       <main className="col-span-10 grid grid-cols-2 gap-4">
+        {/* Add New Entry Form */}
+        <div className="col-span-2 bg-gray-100 shadow-md rounded-lg p-4">
+          <h3 className="text-xl font-semibold">Add a New Learning Entry</h3>
+          <input
+            type="text"
+            value={newEntry}
+            onChange={(e) => setNewEntry(e.target.value)}
+            placeholder="What did you learn today?"
+            className="w-full mt-2 p-2 border rounded-md"
+          />
+          <button
+            onClick={handleAddEntry}
+            className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
+            Save Entry
+          </button>
+        </div>
+
         {/* Learning Recap Section */}
         <div className="col-span-2 bg-white shadow-md rounded-lg p-4">
           <h3 className="text-xl font-semibold">Learning Recap</h3>
@@ -43,23 +61,6 @@ const Dashboard = ({
               {log.text}
             </p>
           ))}
-        </div>
-        {/* Add New Entry Form */}
-        <div className="col-span-2 bg-gray-100 shadow-md rounded-lg p-4">
-          <h3 className="text-xl font-semibold">Add a New Learning Entry</h3>
-          <input
-            type="text"
-            value={newEntry}
-            onChange={(e) => setNewEntry(e.target.value)}
-            placeholder="What did you learn today?"
-            className="w-full mt-2 p-2 border rounded-md"
-          />
-          <button
-            onClick={handleAddEntry}
-            className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-          >
-            Save Entry
-          </button>
         </div>
 
         {/* Project Summary */}
