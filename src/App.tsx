@@ -5,15 +5,35 @@ import LearningLog from "./components/LearningLog";
 import ProjectTracker from "./components/ProjectTracker";
 import Insights from "./components/Insights";
 
+interface Project {
+  id: number;
+  name: string;
+  description: string;
+  status: "In Progress" | "Completed" | "On Hold";
+  tags: string[];
+}
+
 function App() {
   const [logs, setLogs] = useState<any[]>([
     { text: "Learned React hooks!", tags: ["React"] },
     { text: "Explored TypeScript generics.", tags: ["TypeScript"] },
   ]);
 
-  const [projects, setProjects] = useState<any[]>([
-    { id: 1, name: "Portfolio Website", status: "In Progress" },
-    { id: 2, name: "E-Commerce Store", status: "Completed" },
+  const [projects, setProjects] = useState<Project[]>([
+    {
+      id: 1,
+      name: "Portfolio Website",
+      status: "In Progress",
+      description: "Building a personal portfolio site",
+      tags: ["React", "TailwindCSS"],
+    },
+    {
+      id: 2,
+      name: "E-Commerce Store",
+      status: "Completed",
+      description: "Developing an online shopping platform",
+      tags: ["Next.js", "Stripe"],
+    },
   ]);
 
   return (
@@ -61,7 +81,12 @@ function App() {
             />
 
             <Route path="/learning-log" element={<LearningLog logs={logs} />} />
-            <Route path="/project-tracker" element={<ProjectTracker />} />
+            <Route
+              path="/project-tracker"
+              element={
+                <ProjectTracker projects={projects} setProjects={setProjects} />
+              }
+            />
             <Route path="/insights" element={<Insights logs={logs} />} />
           </Routes>
         </main>

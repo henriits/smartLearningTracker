@@ -109,11 +109,15 @@ const Dashboard = ({
         {/* Project Summary */}
         <div className="bg-gray-100 shadow-md rounded-lg p-4">
           <h3 className="text-xl font-semibold">Ongoing Projects</h3>
-          {projects.map((project) => (
-            <p key={project.id} className="text-blue-500">
-              {project.name} - {project.status}
-            </p>
-          ))}
+          {projects.length === 0 ? (
+            <p className="text-gray-500">No active projects yet.</p>
+          ) : (
+            projects.map((project) => (
+              <p key={project.id} className="text-blue-500">
+                {project.name} - {project.status}
+              </p>
+            ))
+          )}
         </div>
 
         {/* Achievements */}

@@ -8,12 +8,17 @@ interface Project {
   tags: string[];
 }
 
-const ProjectTracker = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
+const ProjectTracker = ({
+  projects,
+  setProjects,
+}: {
+  projects: Project[];
+  setProjects: (projects: Project[]) => void;
+}) => {
   const [newProject, setNewProject] = useState({ name: "", description: "" });
 
   const addProject = () => {
-    if (!newProject.name) return;
+    if (!newProject.name.trim()) return;
     setProjects([
       ...projects,
       {
@@ -21,7 +26,7 @@ const ProjectTracker = () => {
         name: newProject.name,
         description: newProject.description,
         status: "In Progress",
-        tags: ["React", "UI/UX"], // Example default tags
+        tags: ["React", "UI/UX"], // Default tags
       },
     ]);
     setNewProject({ name: "", description: "" });
@@ -31,12 +36,12 @@ const ProjectTracker = () => {
     <div className="container mx-auto p-6 bg-gray-100 rounded-lg">
       <h2 className="text-xl font-semibold text-gray-700">Project Tracker</h2>
 
+      {/* Add Project Form */}
       <div className="mt-4 space-y-4">
-        {/* Add Project Form */}
         <input
           type="text"
           placeholder="Project Name"
-          className="p-2 border rounded-md"
+          className="p-2 border rounded-md w-full"
           value={newProject.name}
           onChange={(e) =>
             setNewProject({ ...newProject, name: e.target.value })
@@ -56,8 +61,10 @@ const ProjectTracker = () => {
         >
           Add Project
         </button>
+      </div>
 
-        {/* Display Projects */}
+      {/* Display Projects */}
+      <div className="mt-6">
         {projects.map((project) => (
           <div
             key={project.id}
