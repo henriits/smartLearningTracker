@@ -13,23 +13,36 @@ const ProjectTracker = ({
   setProjects,
 }: {
   projects: Project[];
-  setProjects: (projects: Project[]) => void;
+  setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
 }) => {
   const [newProject, setNewProject] = useState({ name: "", description: "" });
 
   const addProject = () => {
     if (!newProject.name.trim()) return;
-    setProjects([
-      ...projects,
+
+    setProjects((prevProjects: Project[]) => [
+      ...prevProjects,
       {
-        id: projects.length + 1,
+        id: prevProjects.length + 1,
         name: newProject.name,
         description: newProject.description,
         status: "In Progress",
-        tags: ["React", "UI/UX"], // Default tags
+        tags: ["React", "UI/UX"],
       },
     ]);
+
     setNewProject({ name: "", description: "" });
+  };
+
+  const updateProjectStatus = (
+    id: number,
+    newStatus: "In Progress" | "Completed" | "On Hold"
+  ) => {
+    setProjects((prevProjects: Project[]) =>
+      prevProjects.map((project) =>
+        project.id === id ? { ...project, status: newStatus } : project
+      )
+    );
   };
 
   return (
@@ -64,7 +77,7 @@ const ProjectTracker = ({
       </div>
 
       {/* Display Projects */}
-      <div className="mt-6">
+      <div className="mt-6 space-y-4">
         {projects.map((project) => (
           <div
             key={project.id}
@@ -72,17 +85,20 @@ const ProjectTracker = ({
           >
             <h3 className="text-lg font-bold">{project.name}</h3>
             <p className="text-gray-600">{project.description}</p>
-            <p className="text-sm text-gray-500">Status: {project.status}</p>
-            <div className="mt-2">
-              {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2 py-1 bg-green-500 text-white rounded-md text-sm mr-2"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+            <select
+              value={project.status}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                updateProjectStatus(
+                  project.id,
+                  e.target.value as "In Progress" | "Completed" | "On Hold"
+                )
+              }
+              className="mt-2 p-2 border rounded-md"
+            >
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+              <option value="On Hold">On Hold</option>
+            </select>
           </div>
         ))}
       </div>
