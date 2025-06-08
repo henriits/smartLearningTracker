@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import type { TooltipItem } from "chart.js";
+import type { LearningLog, Project } from "../types/types";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -9,9 +11,9 @@ const Dashboard = ({
   setLogs,
   projects,
 }: {
-  logs: any[];
-  setLogs: (logs: any[]) => void;
-  projects: any[];
+  logs: LearningLog[];
+  setLogs: React.Dispatch<React.SetStateAction<LearningLog[]>>;
+  projects: Project[];
 }) => {
   const tagCount: { [key: string]: number } = {};
   logs.forEach((log) => {
@@ -37,8 +39,8 @@ const Dashboard = ({
     plugins: {
       tooltip: {
         callbacks: {
-          label: function (tooltipItem: any) {
-            const value = tooltipItem.raw;
+          label: function (tooltipItem: TooltipItem<"doughnut">) {
+            const value = tooltipItem.raw as number;
             const total = Object.values(tagCount).reduce((a, b) => a + b, 0);
             const percentage = ((value / total) * 100).toFixed(1);
             return `${tooltipItem.label}: ${percentage}%`;

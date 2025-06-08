@@ -7,3 +7,8 @@ export interface Project {
 }
 
 export type ProjectStatus = "In Progress" | "Completed" | "On Hold";
+
+export interface LearningLog {
+  text: string;
+  tags: string[];
+}
