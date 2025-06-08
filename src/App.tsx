@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import LearningLog from "./components/LearningLog";
+import ProjectTracker from "./components/ProjectTracker";
 
 function App() {
   return (
@@ -20,13 +21,19 @@ function App() {
           >
             Learning Log
           </Link>
-          <Link to="/learning-log">Learning Log</Link>
+          <Link
+            className="px-4 py-2 mx-2 rounded-md border-2 border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors duration-200"
+            to="/project-tracker"
+          >
+            Project Tracker
+          </Link>
         </nav>
       </header>
 
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/learning-log" element={<LearningLog />} />
+        <Route path="/project-tracker" element={<ProjectTracker />} />
       </Routes>
     </Router>
   );
