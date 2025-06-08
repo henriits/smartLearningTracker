@@ -49,28 +49,69 @@ const Dashboard = ({
       },
     },
   };
-  const [newEntry, setNewEntry] = useState("");
+  const [newEntry, setNewEntry] = useState({ text: "", topic: "" });
+  const existingTopics = Array.from(new Set(logs.flatMap((log) => log.tags)));
 
   const handleAddEntry = () => {
-    if (!newEntry.trim()) return;
-    const updatedLogs = [...logs, { text: newEntry, tags: ["General"] }];
+    if (!newEntry.text.trim()) return;
+
+    const updatedLogs = [
+      ...logs,
+      { text: newEntry.text, tags: [newEntry.topic || "General"] },
+    ];
     setLogs(updatedLogs);
-    setNewEntry("");
+    setNewEntry({ text: "", topic: "" });
   };
+
   return (
     <div className="grid grid-cols-10 gap-4 p-6">
       {/* Main Content */}
       <main className="col-span-10 grid grid-cols-2 gap-4">
         {/* Add New Entry Form */}
+        {/* Learning Entry Form */}
         <div className="col-span-2 bg-gray-100 shadow-md rounded-lg p-4">
           <h3 className="text-xl font-semibold">Add a New Learning Entry</h3>
+
+          {/* Learning Text Input */}
           <input
             type="text"
-            value={newEntry}
-            onChange={(e) => setNewEntry(e.target.value)}
+            value={newEntry.text}
+            onChange={(e) => setNewEntry({ ...newEntry, text: e.target.value })}
             placeholder="What did you learn today?"
             className="w-full mt-2 p-2 border rounded-md"
           />
+
+          {/* Topic Selection Dropdown & Custom Entry */}
+          <div className="mt-2">
+            <label className="block text-gray-600">
+              Select or Create a Topic:
+            </label>
+            <select
+              value={newEntry.topic}
+              onChange={(e) =>
+                setNewEntry({ ...newEntry, topic: e.target.value })
+              }
+              className="w-full mt-1 p-2 border rounded-md"
+            >
+              <option value="">Select a topic...</option>
+              {existingTopics.map((topic) => (
+                <option key={topic} value={topic}>
+                  {topic}
+                </option>
+              ))}
+            </select>
+            <input
+              type="text"
+              placeholder="Or enter a new topic..."
+              value={newEntry.topic}
+              onChange={(e) =>
+                setNewEntry({ ...newEntry, topic: e.target.value })
+              }
+              className="w-full mt-2 p-2 border rounded-md"
+            />
+          </div>
+
+          {/* Save Button */}
           <button
             onClick={handleAddEntry}
             className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
