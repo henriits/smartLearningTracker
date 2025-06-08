@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import type { TooltipItem } from "chart.js";
-import type { LearningLog, Project } from "../types/types";
+import type { LearningLogType, Project } from "../types/types";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -11,8 +11,8 @@ const Dashboard = ({
   setLogs,
   projects,
 }: {
-  logs: LearningLog[];
-  setLogs: React.Dispatch<React.SetStateAction<LearningLog[]>>;
+  logs: LearningLogType[];
+  setLogs: React.Dispatch<React.SetStateAction<LearningLogType[]>>;
   projects: Project[];
 }) => {
   const tagCount: { [key: string]: number } = {};

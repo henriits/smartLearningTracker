@@ -5,16 +5,10 @@ import LearningLog from "./components/LearningLog";
 import ProjectTracker from "./components/ProjectTracker";
 import Insights from "./components/Insights";
 
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  status: "In Progress" | "Completed" | "On Hold";
-  tags: string[];
-}
+import type { Project, LearningLogType } from "./types/types";
 
 function App() {
-  const [logs, setLogs] = useState<any[]>([
+  const [logs, setLogs] = useState<LearningLogType[]>([
     { text: "Learned React hooks!", tags: ["React"] },
     { text: "Explored TypeScript generics.", tags: ["TypeScript"] },
   ]);
