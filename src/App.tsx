@@ -59,7 +59,7 @@ function App() {
             />
             <Route path="/learning-log" element={<LearningLog />} />
             <Route path="/project-tracker" element={<ProjectTracker />} />
-            <Route path="/insights" element={<Insights />} />
+            <Route path="/insights" element={<Insights logs={logs} />} />
           </Routes>
         </main>
       </div>
