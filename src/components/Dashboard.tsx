@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 const Dashboard = ({
   logs,
   setLogs,
@@ -11,7 +13,6 @@ const Dashboard = ({
   setLogs: (logs: any[]) => void;
   projects: any[];
 }) => {
-  // Aggregate tag data
   const tagCount: { [key: string]: number } = {};
   logs.forEach((log) => {
     log.tags.forEach((tag) => {
@@ -19,6 +20,9 @@ const Dashboard = ({
     });
   });
 
+  const totalEntries = logs.length;
+
+  // Calculate percentages
   const chartData = {
     labels: Object.keys(tagCount),
     datasets: [
@@ -29,8 +33,21 @@ const Dashboard = ({
     ],
   };
 
+  const chartOptions = {
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem: any) {
+            const value = tooltipItem.raw;
+            const total = Object.values(tagCount).reduce((a, b) => a + b, 0);
+            const percentage = ((value / total) * 100).toFixed(1);
+            return `${tooltipItem.label}: ${percentage}%`;
+          },
+        },
+      },
+    },
+  };
   const [newEntry, setNewEntry] = useState("");
-  const totalEntries = logs.length;
 
   const handleAddEntry = () => {
     if (!newEntry.trim()) return;
@@ -83,6 +100,12 @@ const Dashboard = ({
           ))}
         </div>
 
+        {/* Insights Donut Chart */}
+        <div className=" bg-purple-100 shadow-md rounded-lg p-4">
+          <h3 className="text-xl font-semibold">Learning Insights</h3>
+          <Doughnut data={chartData} options={chartOptions} />
+        </div>
+
         {/* Project Summary */}
         <div className="bg-gray-100 shadow-md rounded-lg p-4">
           <h3 className="text-xl font-semibold">Ongoing Projects</h3>
@@ -91,12 +114,6 @@ const Dashboard = ({
               {project.name} - {project.status}
             </p>
           ))}
-        </div>
-
-        {/* Insights Donut Chart */}
-        <div className=" bg-purple-100 shadow-md rounded-lg p-4">
-          <h3 className="text-xl font-semibold">Learning Insights</h3>
-          <Doughnut data={chartData} options={{ responsive: true }} />
         </div>
 
         {/* Achievements */}
