@@ -30,7 +30,20 @@ const Dashboard = ({
     datasets: [
       {
         data: Object.values(tagCount),
-        backgroundColor: ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"],
+        backgroundColor: [
+          "#3b82f6",
+          "#10b981",
+          "#f59e0b",
+          "#8b5cf6",
+          "#ef4444",
+          "#ec4899",
+          "#6366f1",
+          "#14b8a6",
+          "#f97316",
+          "#84cc16",
+          "#a855f7",
+          "#22c55e",
+        ],
       },
     ],
   };
