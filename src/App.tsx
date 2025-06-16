@@ -6,6 +6,7 @@ import ProjectTracker from "./components/ProjectTracker";
 import Insights from "./components/Insights";
 
 import type { Project, LearningLogType } from "./types/types";
+import Achievements from "./components/Achievements";
 
 function App() {
   const [logs, setLogs] = useState<LearningLogType[]>([
@@ -69,6 +70,12 @@ function App() {
             >
               Insights
             </Link>
+            <Link
+              className="block py-2 px-4 rounded bg-yellow-500 hover:bg-yellow-600"
+              to="/achievements"
+            >
+              Achievements
+            </Link>
           </nav>
         </aside>
 
@@ -90,6 +97,10 @@ function App() {
               }
             />
             <Route path="/insights" element={<Insights logs={logs} />} />
+            <Route
+              path="/achievements"
+              element={<Achievements logs={logs} projects={projects} />}
+            />
           </Routes>
         </main>
       </div>

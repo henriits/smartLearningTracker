@@ -4,6 +4,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import type { TooltipItem } from "chart.js";
 import type { LearningLogType, Project } from "../types/types";
 import Achievements from "./Achievements";
+import { getAchievements } from "../utils/achievements";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -63,6 +64,11 @@ const Dashboard = ({
       },
     },
   };
+
+  const unlockedAchievements = getAchievements(logs, projects).filter(
+    (a) => a.unlocked
+  );
+  const latest = unlockedAchievements.at(-1);
   const [newEntry, setNewEntry] = useState({ text: "", topic: "" });
   const existingTopics = Array.from(new Set(logs.flatMap((log) => log.tags)));
 
@@ -196,11 +202,15 @@ const Dashboard = ({
         </div>
 
         {/* Achievements */}
-        {/* Achievements */}
-        <div className="col-span-2 bg-yellow-100 shadow-md rounded-lg p-4">
-          <h3 className="text-xl font-semibold mb-2">Achievements</h3>
-          <Achievements logs={logs} projects={projects} />
-        </div>
+        {latest && (
+          <div className="bg-yellow-100 shadow-md rounded-lg p-4">
+            <h3 className="text-xl font-semibold mb-2">Latest Achievement</h3>
+            <div className="p-4 bg-white rounded-md shadow">
+              <h4 className="font-bold text-lg">🏆 {latest.title}</h4>
+              <p className="text-gray-600">{latest.description}</p>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
