@@ -3,6 +3,7 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import type { TooltipItem } from "chart.js";
 import type { LearningLogType, Project } from "../types/types";
+import Achievements from "./Achievements";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -195,9 +196,10 @@ const Dashboard = ({
         </div>
 
         {/* Achievements */}
+        {/* Achievements */}
         <div className="col-span-2 bg-yellow-100 shadow-md rounded-lg p-4">
-          <h3 className="text-xl font-semibold">Achievements</h3>
-          {/* List badges & milestones */}
+          <h3 className="text-xl font-semibold mb-2">Achievements</h3>
+          <Achievements logs={logs} projects={projects} />
         </div>
       </main>
     </div>
