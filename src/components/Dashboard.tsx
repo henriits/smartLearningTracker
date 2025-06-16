@@ -1,9 +1,9 @@
+import { useMemo } from "react";
 import { useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import type { TooltipItem } from "chart.js";
 import type { LearningLogType, Project } from "../types/types";
-import Achievements from "./Achievements";
 import { getAchievements } from "../utils/achievements";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -65,10 +65,17 @@ const Dashboard = ({
     },
   };
 
-  const unlockedAchievements = getAchievements(logs, projects).filter(
-    (a) => a.unlocked
-  );
-  const latest = unlockedAchievements.at(-1);
+  const latest = useMemo(() => {
+    const unlocked = getAchievements(logs, projects)
+      .filter((a) => a.unlocked)
+      .sort(
+        (a, b) =>
+          new Date(a.unlockedAt || 0).getTime() -
+          new Date(b.unlockedAt || 0).getTime()
+      );
+    return unlocked.slice(-1)[0];
+  }, [logs, projects]);
+
   const [newEntry, setNewEntry] = useState({ text: "", topic: "" });
   const existingTopics = Array.from(new Set(logs.flatMap((log) => log.tags)));
 

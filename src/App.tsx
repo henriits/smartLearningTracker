@@ -29,6 +29,7 @@ function App() {
       status: "In Progress",
       description: "Building a personal portfolio site",
       tags: ["React", "TailwindCSS"],
+      createdAt: new Date("2025-02-04T09:00:00"),
     },
     {
       id: 2,
@@ -36,6 +37,7 @@ function App() {
       status: "Completed",
       description: "Developing an online shopping platform",
       tags: ["Next.js", "Stripe"],
+      createdAt: new Date("2025-02-05T10:00:00"),
     },
   ]);
 
