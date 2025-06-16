@@ -89,14 +89,14 @@ export const getAchievements = (
     },
 
     {
-      id: 13,
+      id: 11,
       title: "First Project",
       description: "Created your first project.",
       unlocked: projects.length >= 1,
       unlockedAt: projects[0]?.createdAt,
     },
     {
-      id: 14,
+      id: 12,
       title: "Road to Mastery",
       description: "Logged 10 entries under a single topic.",
       unlocked: Object.values(tagCount).some((count) => count >= 10),
