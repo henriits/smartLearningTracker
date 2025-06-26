@@ -23,3 +23,8 @@ export interface Achievement {
   unlocked: boolean;
   unlockedAt?: Date;
 }
+
+export type CalendarValue = {
+  date: string;
+  count: number;
+};
