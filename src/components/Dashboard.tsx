@@ -7,6 +7,7 @@ import type { CalendarValue, LearningLogType, Project } from "../types/types";
 import { getAchievements } from "../utils/achievements";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
+import { useEffect } from "react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -27,6 +28,10 @@ const Dashboard = ({
   });
 
   const totalEntries = logs.length;
+
+  useEffect(() => {
+    localStorage.setItem("learningLogs", JSON.stringify(logs));
+  }, [logs]);
 
   // Calculate percentages
   const chartData = {

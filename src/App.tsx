@@ -9,18 +9,15 @@ import type { Project, LearningLogType } from "./types/types";
 import Achievements from "./components/Achievements";
 
 function App() {
-  const [logs, setLogs] = useState<LearningLogType[]>([
-    {
-      text: "Learned React hooks!",
-      tags: ["React"],
-      createdAt: new Date("2025-02-04T22:22:22"),
-    },
-    {
-      text: "Explored TypeScript generics.",
-      tags: ["TypeScript"],
-      createdAt: new Date("2025-02-04T02:21:22"),
-    },
-  ]);
+  const [logs, setLogs] = useState<LearningLogType[]>(() => {
+    const stored = localStorage.getItem("learningLogs");
+    return stored
+      ? JSON.parse(stored).map((log: LearningLogType) => ({
+          ...log,
+          createdAt: new Date(log.createdAt),
+        }))
+      : [];
+  });
 
   const [projects, setProjects] = useState<Project[]>([
     {
