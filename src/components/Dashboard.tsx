@@ -3,8 +3,11 @@ import { useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import type { TooltipItem } from "chart.js";
-import type { LearningLogType, Project } from "../types/types";
+import type { CalendarValue, LearningLogType, Project } from "../types/types";
 import { getAchievements } from "../utils/achievements";
+import CalendarHeatmap from "react-calendar-heatmap";
+import "react-calendar-heatmap/dist/styles.css";
+import { useEffect } from "react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -25,6 +28,10 @@ const Dashboard = ({
   });
 
   const totalEntries = logs.length;
+
+  useEffect(() => {
+    localStorage.setItem("learningLogs", JSON.stringify(logs));
+  }, [logs]);
 
   // Calculate percentages
   const chartData = {
@@ -75,6 +82,19 @@ const Dashboard = ({
       );
     return unlocked.slice(-1)[0];
   }, [logs, projects]);
+
+  const heatmapData = logs.reduce((acc, log) => {
+    const day = new Date(log.createdAt).toISOString().split("T")[0];
+    acc[day] = (acc[day] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const calendarData: CalendarValue[] = Object.entries(heatmapData).map(
+    ([date, count]) => ({
+      date,
+      count,
+    })
+  );
 
   const [newEntry, setNewEntry] = useState({ text: "", topic: "" });
   const existingTopics = Array.from(new Set(logs.flatMap((log) => log.tags)));
@@ -218,6 +238,31 @@ const Dashboard = ({
             </div>
           </div>
         )}
+        <div className="bg-white shadow-md rounded-lg p-4 col-span-2">
+          <h3 className="text-xl font-semibold mb-2">Entry Consistency</h3>
+          <CalendarHeatmap
+            startDate={
+              new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+            }
+            endDate={new Date()}
+            values={calendarData}
+            classForValue={(value) => {
+              if (!value || !value.count) return "color-empty";
+              if (value.count >= 5) return "color-github-4";
+              if (value.count >= 3) return "color-github-3";
+              if (value.count >= 2) return "color-github-2";
+              return "color-github-1";
+            }}
+            titleForValue={(value) =>
+              value?.date && value?.count
+                ? `${value.date} — ${value.count} entr${
+                    value.count > 1 ? "ies" : "y"
+                  }`
+                : "No entries"
+            }
+            showWeekdayLabels
+          />
+        </div>
       </main>
     </div>
   );
