@@ -21,6 +21,8 @@ const ProjectTracker = ({
         description: newProject.description,
         status: "In Progress",
         tags: ["React", "UI/UX"],
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ]);
 
