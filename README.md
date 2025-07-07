@@ -1,54 +1,56 @@
-# React + TypeScript + Vite
+# 📚 Smart Learning Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A dynamic learning tracker built with React, TypeScript, and Vite — designed to help users visualize progress through an interactive calendar heatmap and gamified feedback. Easily deployed with Vercel.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Live Demo
 
-## Expanding the ESLint configuration
+🔗 [smart-learning-tracker.vercel.app](https://smart-learning-tracker.vercel.app)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🎯 Features
+
+### Public Dashboard
+
+- 📆 **Calendar Heatmap** — visualizes streaks and daily learning consistency.
+- ✏️ **Daily Entry Tracking** — log activity with ease.
+- 🧩 **Modular Component Architecture** — scalable and maintainable design.
+- ⚡ **Responsive Design** — mobile-ready layout.
+- 🕹️ **Gamification & Achievements**:
+  - Unlock badges (e.g. "7-Day Streaker", "Weekend Warrior")
+  - Track XP and level up
+  - Get feedback with animations and streak alerts
+
+### Extensible System
+
+- 🎯 Designed to grow with goals, summaries, streaks, and challenge mechanics.
+- 📊 Future-ready for goal tracking and persistent data.
+
+---
+
+## 🛠️ Tech Stack
+
+- **React** (v18+)
+- **TypeScript**
+- **Vite**
+- **Tailwind CSS**
+- **React Calendar Heatmap**
+- **ESLint / Prettier**
+
+---
+
+### Prerequisites
+
+- Node.js v16+
+- npm or yarn
+
+### Installation
+
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+    git clone https://github.com/henriits/smartLearningTracker.git
+    cd smartLearningTracker
+    npm install
+    npm run dev
 ```
